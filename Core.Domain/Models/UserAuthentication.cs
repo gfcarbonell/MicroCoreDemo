@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Core.Domain.Models
 {
-    public class Login
+    public class UserAuthentication
     {
         public string Username { get; set; }
         public string Email { get; set; }

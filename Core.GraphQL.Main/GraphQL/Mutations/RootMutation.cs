@@ -12,6 +12,7 @@ namespace Core.GraphQL.Main.GraphQL.Mutations
         {
             Name = "RootMutation";
             Field<NonNullGraphType<UserMutation>>("UserMutation", resolve: context => new { });
+            Field<NonNullGraphType<AuthenticationMutation>>("AuthenticationMutation", resolve: context => new { });
         }
     }
 }
