@@ -12,8 +12,8 @@ namespace Core.GraphQL.Main.GraphQL.InputTypes.Users
         public AddUserInputType()
         {
             Name = "AddUserInputType";
-            Field(x => x.Username, type: typeof(NonNullGraphType<StringGraphType>)).Description($"{nameof(UserAuthentication.Username)} of {nameof(User)}");
-            Field(x => x.Password, type: typeof(NonNullGraphType<StringGraphType>)).Description($"{nameof(UserAuthentication.Password)} of {nameof(UserAuthentication)}");
+            Field(x => x.Username, type: typeof(NonNullGraphType<StringGraphType>)).Description($"{nameof(User.Username)} of {nameof(User)}");
+            Field(x => x.Password, type: typeof(NonNullGraphType<StringGraphType>)).Description($"{nameof(User.Password)} of {nameof(User)}");
         }
     }
 }

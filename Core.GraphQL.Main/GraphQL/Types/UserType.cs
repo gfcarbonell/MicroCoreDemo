@@ -12,9 +12,9 @@ namespace Core.GraphQL.Main.GraphQL.Types
         public UserType()
         {
             Name = "User";
-            Field(x => x.Id, type: typeof(NonNullGraphType<IdGraphType>)).Description($"Id of {nameof(User)}");
-            Field(x => x.Username, type: typeof(NonNullGraphType<StringGraphType>)).Description($"Username of {nameof(User)}");
-            Field(x => x.Nickname, type: typeof(StringGraphType)).Description($"Nickname of {nameof(User)}");
+            Field(x => x.Id, type: typeof(NonNullGraphType<IdGraphType>)).Description($"{nameof(User.Id)} of {nameof(User)}");
+            Field(x => x.Username, type: typeof(NonNullGraphType<StringGraphType>)).Description($"{nameof(User.Username)} of {nameof(User)}");
+            Field(x => x.Nickname, type: typeof(StringGraphType)).Description($"{nameof(User.Nickname)} of {nameof(User)}");
         }
     }
 }

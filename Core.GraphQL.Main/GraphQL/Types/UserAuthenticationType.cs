@@ -12,10 +12,8 @@ namespace Core.GraphQL.Main.GraphQL.Types
         public UserAuthenticationType()
         {
             Name = "Auth";
-            Field(x => x.Username, type: typeof(NonNullGraphType<StringGraphType>)).Description($"{0} of {nameof(UserAuthentication)}");
-            Field(x => x.Email, type: typeof(NonNullGraphType<StringGraphType>)).Description($"{0} of {nameof(UserAuthentication)}");
-            Field(x => x.Cellphone, type: typeof(NonNullGraphType<StringGraphType>)).Description($"{0} of {nameof(UserAuthentication)}");
-            Field(x => x.Password, type: typeof(NonNullGraphType<StringGraphType>)).Description($"{0} of {nameof(UserAuthentication)}");
+            Field(x => x.Token, type: typeof(NonNullGraphType<StringGraphType>)).Description($"{nameof(UserAuthentication.Token)} of {nameof(UserAuthentication)}");
+            Field(x => x.User, type: typeof(NonNullGraphType<UserType>)).Description($"{nameof(UserAuthentication.User)} of {nameof(UserAuthentication)}");
         }
     }
 }

@@ -33,6 +33,13 @@ namespace Core.GraphQL.Main
 
             // Inject Dependecies
             IoCRegister.AddRegistration(services);
+
+            // JWT
+            JwtAuthConfig.AddRegistration(services, this._configuration);
+
+            // Cors
+            CorsConfig.AddRegistration(services);
+
             //GraphQL 
             GraphQLConfig.AddRegistration(services);
         }
@@ -54,6 +61,12 @@ namespace Core.GraphQL.Main
             app.UseWebSockets();
             app.UseHttpsRedirection();
             app.UseMvc();
+
+            // JWT
+            JwtAuthConfig.AddRegistration(app, this._configuration);
+
+            // Cors
+            CorsConfig.AddRegistration(app);
 
             //GraphQL 
             GraphQLConfig.AddRegistration(app);
