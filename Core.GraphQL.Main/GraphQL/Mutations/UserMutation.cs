@@ -7,6 +7,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Core.GraphQL.Main.GraphQL.Types;
 using Core.GraphQL.Main.GraphQL.InputTypes.Users;
+using Core.Domain.Models.Security;
 
 namespace Core.GraphQL.Main.GraphQL.Mutations
 {

@@ -1,4 +1,5 @@
-﻿using Core.Domain.Models;
+﻿using Core.Domain.Dto;
+using Core.Domain.Models;
 using GraphQL.Types;
 using System;
 using System.Collections.Generic;
@@ -12,7 +13,7 @@ namespace Core.GraphQL.Main.GraphQL.Types
         public UserAuthenticationType()
         {
             Name = "Auth";
-            Field(x => x.Token, type: typeof(NonNullGraphType<StringGraphType>)).Description($"{nameof(UserAuthentication.Token)} of {nameof(UserAuthentication)}");
+            Field(x => x.JwtToken, type: typeof(NonNullGraphType<StringGraphType>)).Description($"{nameof(UserAuthentication.JwtToken)} of {nameof(UserAuthentication)}");
             Field(x => x.User, type: typeof(NonNullGraphType<UserType>)).Description($"{nameof(UserAuthentication.User)} of {nameof(UserAuthentication)}");
         }
     }

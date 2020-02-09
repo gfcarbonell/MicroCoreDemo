@@ -1,4 +1,5 @@
-﻿using Core.Domain.Models;
+﻿using Core.Domain.Dto;
+using Core.Domain.Models.Security;
 using Core.Service.Contract.IServices;
 using System;
 using System.Collections.Generic;
@@ -9,11 +10,6 @@ namespace Core.Service.Service
 {
     public class UserAuthenticationService : IUserAuthenticationService
     {
-        public UserAuthenticationService()
-        {
-
-        }
-
         public Task<UserAuthentication> LoginByCellphoneAsync(Login login)
         {
             throw new NotImplementedException();
@@ -28,7 +24,6 @@ namespace Core.Service.Service
         {
             return new UserAuthentication()
             {
-                Token = "fsuiodhfohsdifhkshdkfhskhfkshfjkhskhfkshjkfs",
                 User = new User()
                 {
                     Id = 1,

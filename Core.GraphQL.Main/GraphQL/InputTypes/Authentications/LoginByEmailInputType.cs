@@ -1,4 +1,5 @@
-﻿using Core.Domain.Models;
+﻿using Core.Domain.Dto;
+using Core.Domain.Models;
 using GraphQL.Types;
 using System;
 using System.Collections.Generic;

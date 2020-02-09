@@ -19,10 +19,12 @@ namespace Core.GraphQL.Main
     public class Startup
     {
         public IConfiguration _configuration { get; }
+        public ILoggerFactory _loggerFactory { get; }
 
-        public Startup(IConfiguration configuration)
+        public Startup(IConfiguration configuration, ILoggerFactory loggerFactory)
         {
             this._configuration = configuration;
+            this._loggerFactory = loggerFactory;
         }
 
         // This method gets called by the runtime. Use this method to add services to the container.

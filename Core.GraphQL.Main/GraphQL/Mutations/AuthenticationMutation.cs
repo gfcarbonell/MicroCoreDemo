@@ -1,7 +1,10 @@
-﻿using Core.Domain.Models;
+﻿using Core.CrossCutting.Utils;
+using Core.Domain.Dto;
+using Core.Domain.Models.Security;
 using Core.GraphQL.Main.GraphQL.InputTypes.Authentications;
 using Core.GraphQL.Main.GraphQL.Types;
 using Core.Service.Contract.IServices;
+using GraphQL;
 using GraphQL.Types;
 using System;
 using System.Collections.Generic;
@@ -12,20 +15,31 @@ namespace Core.GraphQL.Main.GraphQL.Mutations
 {
     public class AuthenticationMutation : ObjectGraphType
     {
-        public AuthenticationMutation(IUserAuthenticationService _userAuthenticationService)
+        public AuthenticationMutation(IUserService  userService, IUserAuthenticationService userAuthenticationService)
         {
             Name = "AuthMutation";
 
             FieldAsync<UserAuthenticationType>(
                 name: "loginByUsername",
                 arguments: new QueryArguments(
-                           new QueryArgument<NonNullGraphType<LoginByUserNameInputType>> { Name = "login" }),
+                           new QueryArgument<NonNullGraphType<LoginByUsernameInputType>> { Name = "login" }),
 
                 resolve: async contextAsync =>
                 {
                     var login = contextAsync.GetArgument<Login>("login");
-                    var auth = await _userAuthenticationService.LoginByUsernameAsync(login);
-                    return auth;
+
+                    var user = await userService.GetByUsernameAsync(login.Username);
+
+                    if(user == null)
+                    {
+                        contextAsync.Errors.Add(new ExecutionError(Util.NOT_FOUND_USER));
+                    }
+
+                    if(user.Password != null)
+                    {
+                        
+                    }
+                    return user;
                 });
 
             FieldAsync<UserAuthenticationType>(
@@ -35,8 +49,7 @@ namespace Core.GraphQL.Main.GraphQL.Mutations
                 resolve: async contextAsync =>
                 {
                     var login = contextAsync.GetArgument<Login>("login");
-                    var auth = await _userAuthenticationService.LoginByUsernameAsync(login);
-                    return auth;
+                    return login;
                 });
 
             FieldAsync<UserAuthenticationType>(
@@ -46,8 +59,7 @@ namespace Core.GraphQL.Main.GraphQL.Mutations
                 resolve: async contextAsync =>
                 {
                     var login = contextAsync.GetArgument<Login>("login");
-                    var auth = await _userAuthenticationService.LoginByUsernameAsync(login);
-                    return auth;
+                    return login;
                 });
         }
     }

@@ -1,4 +1,5 @@
-﻿using Core.Domain.Models;
+﻿using Core.Domain.Dto;
+using Core.Domain.Models;
 using GraphQL.Types;
 using System;
 using System.Collections.Generic;
@@ -7,9 +8,9 @@ using System.Threading.Tasks;
 
 namespace Core.GraphQL.Main.GraphQL.InputTypes.Authentications
 {
-    public class LoginByUserNameInputType : InputObjectGraphType<Login>
+    public class LoginByUsernameInputType : InputObjectGraphType<Login>
     {
-        public LoginByUserNameInputType()
+        public LoginByUsernameInputType()
         {
             Name = "LoginByUsernameInputType";
             Field(x => x.Username, type: typeof(NonNullGraphType<StringGraphType>)).Description($"{nameof(Login.Username)} of {nameof(Login)}");

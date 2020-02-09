@@ -25,12 +25,14 @@ namespace Core.GraphQL.Main.Config
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
               .AddJwtBearer(options =>
               {
+                  options.Audience = configuration["JWT:Audience"];
+                  options.Authority = configuration["JWT:Issuer"];
                   options.RequireHttpsMetadata = false;
                   options.SaveToken = true;
                   options.TokenValidationParameters = new TokenValidationParameters
                   {
-                      ValidateIssuer = true,
-                      ValidateAudience = true,
+                      ValidateIssuer = false,
+                      ValidateAudience = false,
                       ValidateLifetime = true,
                       ValidateIssuerSigningKey = true,
                       ValidIssuer = configuration["JWT:Issuer"],
@@ -42,6 +44,7 @@ namespace Core.GraphQL.Main.Config
         }
         public static IApplicationBuilder AddRegistration(this IApplicationBuilder app, IConfiguration _configuration)
         {
+            // global cors policy
             app.UseAuthentication();
             return app;
         }

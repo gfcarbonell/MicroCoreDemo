@@ -1,4 +1,5 @@
 ﻿using Core.Domain.Models;
+using Core.Domain.Models.Security;
 using Core.Repository.Contract.IRepositories.SQLServer.Core;
 using Core.Service.Contract.IServices;
 using System;
@@ -16,6 +17,7 @@ namespace Core.Service.Service
         {
             this._userRepository = userRepository;
         }
+
         public User Add(User element)
         {
             throw new NotImplementedException();
@@ -62,6 +64,16 @@ namespace Core.Service.Service
         }
 
         public Task<User> GetByIdAsync(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public User GetByUsername(string username)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<User> GetByUsernameAsync(string username)
         {
             throw new NotImplementedException();
         }
