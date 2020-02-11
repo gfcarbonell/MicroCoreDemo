@@ -17,7 +17,7 @@ namespace Core.Domain.Models.Security
         public DateTime Exp { get; set; }
         public string RefreshToken { get; set; }
         public DateTime RefreshTokenDate { get; set; }
-        public bool Active { get; set; }
+        public int StatusId { get; set; }
 
         public virtual ICollection<Session> Sessions { get; set; }
     }

@@ -9,6 +9,7 @@ namespace Core.Domain.Models.Security
         public User()
         {
             this.UserRoles = new HashSet<UserRole>();
+            this.Sessions = new HashSet<Session>();
         }
 
         public int Id { get; set; }
@@ -19,5 +20,6 @@ namespace Core.Domain.Models.Security
 
         public virtual Status Status { get; set; }
         public virtual ICollection<UserRole> UserRoles { get; set; }
+        public virtual ICollection<Session> Sessions { get; set; }
     }
 }

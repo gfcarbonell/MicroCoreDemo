@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Core.Domain.Enums
 {
-    public enum SQLOperationType
+    public enum ESQLOperationType
     {
         [Description("")]
         NONE,

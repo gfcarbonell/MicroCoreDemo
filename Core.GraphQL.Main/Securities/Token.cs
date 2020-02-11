@@ -1,4 +1,5 @@
 ﻿using Core.Domain.Models;
+using Core.Domain.Models.Security;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System;
@@ -37,7 +38,7 @@ namespace Core.GraphQL.Main.Securities
         //    return true;
         //}
 
-        public string RefreshToken()
+        public string GenerateRefreshToken()
         {
             var randomNumber = new byte[32];
             using (var rng = RandomNumberGenerator.Create())
@@ -49,32 +50,64 @@ namespace Core.GraphQL.Main.Securities
                         .Replace("-", "5").Replace("?", "6");
             }
         }
+        private ClaimsPrincipal GetPrincipalFromExpiredToken(string token)
+        {
+            string Key = _configuration["JWT:Key"];
+            var tokenValidationParameters = new TokenValidationParameters
+            {
+                ValidateIssuer = false,
+                ValidateAudience = false,
+                ValidateLifetime = true,
+                ValidateIssuerSigningKey = true,
+                ValidIssuer = _configuration["JWT:Issuer"],
+                ValidAudience = _configuration["JWT:Audience"],
+                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JWT:Key"]))
+            };
+
+            var tokenHandler = new JwtSecurityTokenHandler();
+            SecurityToken securityToken;
+            var principal = tokenHandler.ValidateToken(token, tokenValidationParameters, out securityToken);
+            var jwtSecurityToken = securityToken as JwtSecurityToken;
+            if (jwtSecurityToken == null || !jwtSecurityToken.Header.Alg.Equals(SecurityAlgorithms.HmacSha256, StringComparison.InvariantCultureIgnoreCase))
+            {
+                throw new SecurityTokenException("Invalid token");
+            }
+
+            return principal;
+        }
+
+        private IEnumerable<Claim> GetClaims(string Name, string Role, string Jti, DateTime IssuedAt, DateTime Expires, string Issuer, string Audience)
+        {
+            List<Claim> claims = new List<Claim>
+            {
+                new Claim(ClaimTypes.Name, Name),
+                new Claim(ClaimTypes.Role, Role),
+                new Claim(JwtRegisteredClaimNames.Jti, Jti),
+                new Claim(JwtRegisteredClaimNames.Iat, IssuedAt.ToString(), ClaimValueTypes.Integer),
+                new Claim(JwtRegisteredClaimNames.Exp, Expires.ToString(), ClaimValueTypes.Integer),
+                new Claim(JwtRegisteredClaimNames.Iss, Issuer),
+                new Claim(JwtRegisteredClaimNames.Aud, Audience),
+            };
+            return claims;
+        }
+
         public async Task<string> GenerateToken(User user)
         {
-            string Issuer = _configuration["Tokens:Issuer"];            
-            string Audience = _configuration["Tokens:Issuer"];
             string Key = _configuration["JWT:Key"];
-
+            string Name = user.Username;
+            string Role = user.UserRoles.FirstOrDefault().Role.Denomination;
+            string Jti = Guid.NewGuid().ToString();
             DateTime IssuedAt = DateTime.UtcNow;
             DateTime NotBefore = IssuedAt;
             DateTime Expires = IssuedAt.AddMinutes(int.Parse(_configuration["Jwt:Expires"]));
+            string Issuer = _configuration["Tokens:Issuer"];
+            string Audience = _configuration["Tokens:Issuer"];
 
-            List<Claim> claims = new List<Claim>
-            {
-                new Claim(ClaimTypes.Name, user.Username),
-                new Claim(ClaimTypes.Role, user.UserRoles.FirstOrDefault().Role.Denomination),
-                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-                new Claim(JwtRegisteredClaimNames.Iat, IssuedAt.ToString(), ClaimValueTypes.Integer),
-                new Claim(JwtRegisteredClaimNames.Exp, Expires.ToString(), ClaimValueTypes.Integer),
-
-                //new Claim(JwtRegisteredClaimNames.Iss, Issuer),
-                //new Claim(JwtRegisteredClaimNames.Aud, Audience),
-            };
-
+            var claims = this.GetClaims(Name, Role, Jti, IssuedAt, Expires, Issuer, Audience);
             ClaimsIdentity Subject = new ClaimsIdentity(claims);
 
-            SymmetricSecurityKey SymmetricSecurityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Expires.ToString()));
-            SigningCredentials SigningCredentials = new SigningCredentials(SymmetricSecurityKey, SecurityAlgorithms.HmacSha256Signature);
+            SymmetricSecurityKey SymmetricSecurityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Key));
+            SigningCredentials SigningCredentials = new SigningCredentials(SymmetricSecurityKey, SecurityAlgorithms.HmacSha256);
 
             var tokenDescriptor = new SecurityTokenDescriptor
             {

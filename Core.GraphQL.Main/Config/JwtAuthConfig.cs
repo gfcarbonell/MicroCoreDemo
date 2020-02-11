@@ -22,24 +22,37 @@ namespace Core.GraphQL.Main.Config
                 .Build();
             });
 
-            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+            services
+              .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
               .AddJwtBearer(options =>
-              {
-                  options.Audience = configuration["JWT:Audience"];
-                  options.Authority = configuration["JWT:Issuer"];
-                  options.RequireHttpsMetadata = false;
-                  options.SaveToken = true;
-                  options.TokenValidationParameters = new TokenValidationParameters
                   {
-                      ValidateIssuer = false,
-                      ValidateAudience = false,
-                      ValidateLifetime = true,
-                      ValidateIssuerSigningKey = true,
-                      ValidIssuer = configuration["JWT:Issuer"],
-                      ValidAudience = configuration["JWT:Audience"],
-                      IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["JWT:Key"]))
-                  };
-              });
+                      options.Audience = configuration["JWT:Audience"];
+                      options.Authority = configuration["JWT:Issuer"];
+                      options.RequireHttpsMetadata = false;
+                      options.SaveToken = true;
+                      options.TokenValidationParameters = new TokenValidationParameters
+                      {
+                          ValidateIssuer = false,
+                          ValidateAudience = false,
+                          ValidateLifetime = true,
+                          ValidateIssuerSigningKey = true,
+                          ValidIssuer = configuration["JWT:Issuer"],
+                          ValidAudience = configuration["JWT:Audience"],
+                          IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["JWT:Key"]))
+                      };
+                      options.Events = new JwtBearerEvents
+                      {
+                          OnAuthenticationFailed = context =>
+                          {
+                              if (context.Exception.GetType() == typeof(SecurityTokenExpiredException))
+                              {
+                                  context.Response.Headers.Add("Token-Expired", "true");
+                              }
+                              return Task.CompletedTask;
+                          }
+                      };
+                  }
+              );
             return services;
         }
         public static IApplicationBuilder AddRegistration(this IApplicationBuilder app, IConfiguration _configuration)
