@@ -1,5 +1,5 @@
-﻿using Core.Domain.Dto;
-using Core.Domain.Models.Security;
+﻿using Core.Domain.Models.Security;
+using Core.Domain.Security;
 using Core.Service.Contract.IServices;
 using System;
 using System.Collections.Generic;
@@ -20,17 +20,9 @@ namespace Core.Service.Service
             throw new NotImplementedException();
         }
 
-        public async Task<UserAuthentication> LoginByUsernameAsync(Login login)
+        public Task<UserAuthentication> LoginByUsernameAsync(Login login)
         {
-            return new UserAuthentication()
-            {
-                User = new User()
-                {
-                    Id = 1,
-                    Username = "gfcarbonell",
-                    Password = "gfcarbonell"
-                }
-            };
+            throw new NotImplementedException();
         }
 
         public Task<bool> LogoutAsync(int code)

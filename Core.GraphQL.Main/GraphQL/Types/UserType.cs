@@ -1,4 +1,5 @@
 ﻿using Core.Domain.Models;
+using Core.Domain.Models.Security;
 using GraphQL.Types;
 using System;
 using System.Collections.Generic;

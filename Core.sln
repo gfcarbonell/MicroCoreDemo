@@ -31,7 +31,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Core.Repository.Contract", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Core.CrossCutting", "Core.CrossCutting\Core.CrossCutting.csproj", "{1C44AEAB-F435-4F70-858E-D5077B8908E8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core.Api.Main", "Core.Api.Main\Core.Api.Main.csproj", "{6EA8F5D1-0E86-47E6-96F2-039171C15E34}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Core.Api.Main", "Core.Api.Main\Core.Api.Main.csproj", "{6EA8F5D1-0E86-47E6-96F2-039171C15E34}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

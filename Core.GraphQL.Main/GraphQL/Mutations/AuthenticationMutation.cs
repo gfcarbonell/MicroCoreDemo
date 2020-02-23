@@ -1,6 +1,6 @@
 ﻿using Core.CrossCutting.Utils;
-using Core.Domain.Dto;
 using Core.Domain.Models.Security;
+using Core.Domain.Security;
 using Core.GraphQL.Main.GraphQL.InputTypes.Authentications;
 using Core.GraphQL.Main.GraphQL.Types;
 using Core.Service.Contract.IServices;

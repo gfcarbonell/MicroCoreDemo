@@ -1,5 +1,6 @@
-﻿using Core.Domain.Dto;
-using Core.Domain.Models;
+﻿using Core.Domain.Models;
+using Core.Domain.Models.Security;
+using Core.Domain.Security;
 using System;
 using System.Collections.Generic;
 using System.Text;

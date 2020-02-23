@@ -1,5 +1,4 @@
 ﻿using Core.GraphQL.Main.GraphQL.Schemas;
-using GraphiQl;
 using GraphQL;
 using GraphQL.Http;
 using GraphQL.Server;
@@ -49,7 +48,6 @@ namespace Core.GraphQL.Main.Config
             app.UseGraphQLWebSockets<ISchema>(GraphQLPath);
 
             //app.UseGraphiQl(GraphQLPath, "/graphiql");
-      
 
             // use graphiQL middleware at default url /graphiql
             app.UseGraphiQLServer(new GraphiQLOptions());

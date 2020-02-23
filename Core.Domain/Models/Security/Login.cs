@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Core.Domain.Dto
+namespace Core.Domain.Security
 {
     public class Login
     {
