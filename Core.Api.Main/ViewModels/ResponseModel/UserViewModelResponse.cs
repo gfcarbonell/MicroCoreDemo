@@ -5,8 +5,9 @@ using System.Threading.Tasks;
 
 namespace Core.Api.Main.ViewModels.ResponseModel
 {
-    public class UserAuthenticationViewModelResponse
+    public class UserViewModelResponse
     {
-
+        public string Username { get; set; }
+        public string Nickname { get; set; }
     }
 }

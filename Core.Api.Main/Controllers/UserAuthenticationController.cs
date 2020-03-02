@@ -5,9 +5,11 @@ using System.Net.Mime;
 using System.Threading.Tasks;
 using AutoMapper;
 using Core.Api.Main.ViewModels.RequestModel.UserAuthentication;
+using Core.Api.Main.ViewModels.ResponseModel;
 using Core.CrossCutting.Constants;
-using Core.Domain.Security;
+using Core.Domain.Models;
 using Core.Service.Contract.IServices;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -21,16 +23,17 @@ namespace Core.Api.Main.Controllers
     [Produces(MediaTypeNames.Application.Json)]
     public class UserAuthenticationController : ControllerBase
     {
-        private readonly IUserAuthenticationService _userAuthenticationService;
         private readonly IMapper _mapper;
-
+        private readonly IUserService _userService;
+        private readonly ISessionService _sessionService;
         /// <summary>
-        /// Injection by Dependece
+        /// Injection Dependency
         /// </summary>
-        public UserAuthenticationController(IMapper mapper,IUserAuthenticationService userAuthenticationService)
+        public UserAuthenticationController(IMapper mapper, ISessionService sessionService, IUserService userService)
         {
             _mapper = mapper;
-            _userAuthenticationService = userAuthenticationService;
+            _sessionService = sessionService;
+            _userService = userService;
         }
 
         /// <summary>
@@ -38,44 +41,38 @@ namespace Core.Api.Main.Controllers
         /// </summary>
         /// <param name="login"></param>
         [HttpPost("login/username")]
-        public async Task<IActionResult> LoginByUsername([FromBody] LoginByUsernameViewModelRequest login)
+        [AllowAnonymous]
+        public async Task<IActionResult> LoginByUsernameAsync([FromBody] LoginByUsernameViewModelRequest login)
         {
-            var mapper = _mapper.Map<Login>(login);
-            var result = await _userAuthenticationService.LoginByUsernameAsync(mapper);
-            if (result == null)
-                return BadRequest(new { message = CoreConstant.MESSAGE_USERNAME_PASSWORD_INVALID });
+            ViewModelResponse<LoginViewModelResponse> viewModelResponse = new ViewModelResponse<LoginViewModelResponse>();
+            User user = await _userService.GetByUsernameAsync(login.Username, login.Password);
+            if (user == null)
+            {
+                viewModelResponse.ErrorMessage = CoreConstant.MESSAGE_USERNAME_PASSWORD_INVALID;
+                viewModelResponse.ErrorCode = CoreConstant.CODE_USERNAME_PASSWORD_INVALID;
+                return BadRequest(viewModelResponse);
+            }
 
-            return Ok(result);
+            var session = new Session()
+            {
+                UserId = user.Id, 
+                Captcha = login.Captcha, 
+                ReCaptcha = login.ReCaptcha
+            };
+
+            await _sessionService.AddAsync(session);
+            return Ok(viewModelResponse);
         }
 
         /// <summary>
-        /// Login by email
+        /// Token Refresh
         /// </summary>
-        /// <param name="login"></param>
-        [HttpPost("login/email")]
-        public async Task<IActionResult> LoginByEmail([FromBody] LoginByEmailViewModelRequest login)
+        /// <param name="Token"></param>
+        /// <param name="RefreshToken"></param>
+        [HttpPost("token-refresh")]
+        public IActionResult TokenRefresh(string Token, string RefreshToken)
         {
-            var mapper = _mapper.Map<Login>(login);
-            var result = await _userAuthenticationService.LoginByEmailAsync(mapper);
-            if (result == null)
-                return BadRequest(new { message = CoreConstant.MESSAGE_EMAIL_PASSWORD_INVALID });
-
-            return Ok(result);
-        }
-
-        /// <summary>
-        /// Login by cellphone
-        /// </summary>
-        /// <param name="login"></param>
-        [HttpPost("login/cellphone")]
-        public async Task<IActionResult> LoginByCellphone([FromBody] LoginByCellphoneViewModelRequest login)
-        {
-            var mapper = _mapper.Map<Login>(login);
-            var result = await _userAuthenticationService.LoginByCellphoneAsync(mapper);
-            if (result == null)
-                return BadRequest(new { message = CoreConstant.MESSAGE_CELLPHONE_PASSWORD_INVALID });
-
-            return Ok(result);
+            return null;
         }
     }
 }

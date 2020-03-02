@@ -1,5 +1,4 @@
 ﻿using Core.Domain.Models;
-using Core.Domain.Models.Security;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System;
@@ -11,7 +10,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Core.Api.Main.Securities
+namespace Core.Service.Securities
 {
     public class Token
     {
@@ -96,8 +95,7 @@ namespace Core.Api.Main.Securities
         /// <returns>claims</returns>
         private async Task<List<Claim>> GetClaims(string Username, string Role, string Jti, string Issuer, string Audience, DateTime IssuedAt, DateTime Expires)
         {
-            if (string.IsNullOrEmpty(Jti))
-            {
+            if (string.IsNullOrEmpty(Jti)){
                 Jti = Guid.NewGuid().ToString();
             }
 
@@ -105,7 +103,7 @@ namespace Core.Api.Main.Securities
             {
                 new Claim(ClaimTypes.Name, Username),
                 new Claim(ClaimTypes.Role, Role),
-                new Claim(JwtRegisteredClaimNames.Jti, Jti),
+                new Claim(JwtRegisteredClaimNames.Jti, Jti), 
                 new Claim(JwtRegisteredClaimNames.Iss, Issuer),
                 new Claim(JwtRegisteredClaimNames.Aud, Audience),
                 new Claim(JwtRegisteredClaimNames.Iat, IssuedAt.ToString(), ClaimValueTypes.Integer),

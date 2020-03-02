@@ -1,5 +1,4 @@
 ﻿using Core.Domain.Models;
-using Core.Domain.Models.Security;
 using Core.Repository.Contract.IRepositories.SQLServer.Core;
 using Core.Service.Contract.IServices;
 using System;
@@ -58,6 +57,16 @@ namespace Core.Service.Service
             throw new NotImplementedException();
         }
 
+        public Task<User> GetByCellphoneAsync(string Cellphone, string Password)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<User> GetByEmailAsync(string Email, string Password)
+        {
+            throw new NotImplementedException();
+        }
+
         public User GetById(int id)
         {
             throw new NotImplementedException();
@@ -68,12 +77,7 @@ namespace Core.Service.Service
             throw new NotImplementedException();
         }
 
-        public User GetByUsername(string username)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<User> GetByUsernameAsync(string username)
+        public Task<User> GetByUsernameAsync(string Username, string Password)
         {
             throw new NotImplementedException();
         }

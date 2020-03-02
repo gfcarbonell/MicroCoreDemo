@@ -5,9 +5,9 @@ using System.Threading.Tasks;
 
 namespace Core.Api.Main.ViewModels.RequestModel.UserAuthentication
 {
-    public class LoginByUsernameViewModelRequest
+    public class LoginByUsernameViewModelRequest: LoginViewModelRequest
     {
         public string Username { get; set; }
-        public string Password { get; set; }
+        public bool Remember { get; set; }
     }
 }

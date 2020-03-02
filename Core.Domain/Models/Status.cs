@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Core.Domain.Models.Security
+namespace Core.Domain.Models
 {
     public class Status
     {

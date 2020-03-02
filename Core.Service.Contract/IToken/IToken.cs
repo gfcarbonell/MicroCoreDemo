@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Core.Domain.Models.Security
+namespace Core.Service.Contract.IToken
 {
-    public class PermissionRole
+    public interface IToken
     {
 
     }

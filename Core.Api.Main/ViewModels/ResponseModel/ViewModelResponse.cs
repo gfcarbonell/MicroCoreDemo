@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Core.Api.Main.ViewModels.ResponseModel
 {
-    public abstract class ViewModelResponse<T>
+    public class ViewModelResponse<T>
     {
         public T Data { get; set; }
         public string Uri { get; set; }

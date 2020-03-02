@@ -2,13 +2,13 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Core.Domain.Models.Security
+namespace Core.Domain.Models
 {
     public class JwtToken
     {
         public JwtToken()
         {
-            this.Sessions = new HashSet<Session>();
+            this.Sessions = new List<Session>();
         }
 
         public int Id { get; set; }

@@ -2,14 +2,14 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Core.Domain.Models.Security
+namespace Core.Domain.Models
 {
     public class User
     {
         public User()
         {
-            this.UserRoles = new HashSet<UserRole>();
-            this.Sessions = new HashSet<Session>();
+            this.UserRoles = new List<UserRole>();
+            this.Sessions = new List<Session>();
         }
 
         public int Id { get; set; }

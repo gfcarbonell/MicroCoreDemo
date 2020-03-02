@@ -1,11 +1,10 @@
-﻿using Core.Domain.Models.Security;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace Core.Domain.Models
 {
-    public class Employee: Person
+    public class Employee : Person
     {
         public int Id { get; set; }
         public int UserId { get; set; }

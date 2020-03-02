@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
+using System.Linq;
+using System.Threading.Tasks;
 
-namespace Core.Domain.Models
+namespace Core.Api.Main.ViewModels.ResponseModel
 {
-    public class Person
+    public class PersonViewModelResponse
     {
-        public int Id { get; set; }
         public string FirstName { get; set; }
         public string SecondName { get; set; }
         public string LastName { get; set; }

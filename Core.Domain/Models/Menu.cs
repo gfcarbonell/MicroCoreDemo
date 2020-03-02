@@ -2,13 +2,13 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Core.Domain.Models.Security
+namespace Core.Domain.Models
 {
     public class Menu
     {
         public Menu()
         {
-            this.Children = new HashSet<Menu>();
+            this.Children = new List<Menu>();
         }
 
         public int Id { get; set; }

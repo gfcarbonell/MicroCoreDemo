@@ -5,9 +5,8 @@ using System.Threading.Tasks;
 
 namespace Core.Api.Main.ViewModels.RequestModel.UserAuthentication
 {
-    public class LoginByEmailViewModelRequest
+    public class LogoutViewModelResponse
     {
-        public string Email { get; set; }
-        public bool Remember { get; set; }
+        public string Code { get; set; }
     }
 }
