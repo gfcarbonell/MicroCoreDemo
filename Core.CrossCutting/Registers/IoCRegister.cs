@@ -22,7 +22,6 @@ namespace Core.CrossCutting.Registers
 
         private static IServiceCollection AddRegisterServices(IServiceCollection services)
         {
-            services.AddTransient<IUserAuthenticationService, UserAuthenticationService>();
             services.AddTransient<IUserService, UserService>();
 
             return services;

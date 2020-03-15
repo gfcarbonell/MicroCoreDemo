@@ -13,11 +13,14 @@ namespace Core.Domain.Models
 
         public int Id { get; set; }
         public string Token { get; set; }
-        public DateTime Iat { get; set; }
-        public DateTime Exp { get; set; }
+        public string Jti { get; set; }
+        public string Audience { get; set; }
+        public string Issuer { get; set; }
+        public DateTime IssuedAt { get; set; }
+        public DateTime Expires { get; set; }
+        public DateTime NotBefore { get; set; }
         public string RefreshToken { get; set; }
         public int StatusId { get; set; }
-
         public virtual ICollection<Session> Sessions { get; set; }
     }
 }

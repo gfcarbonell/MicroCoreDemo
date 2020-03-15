@@ -8,6 +8,5 @@ namespace Core.Api.Main.ViewModels.RequestModel.UserAuthentication
     public class LoginByEmailViewModelRequest
     {
         public string Email { get; set; }
-        public bool Remember { get; set; }
     }
 }

@@ -11,6 +11,5 @@ namespace Core.Api.Main.ViewModels.RequestModel.UserAuthentication
     public class LoginByCellphoneViewModelRequest
     {
         public string Cellphone { get; set; }
-        public bool Remember { get; set; }
     }
 }
